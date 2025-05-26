@@ -11,8 +11,8 @@ import {
 import type { AdapterAccountType } from "next-auth/adapters";
 
 export const role = pgEnum("role", [
-    "ADMIN",
-    "USER",
+    "admin",
+    "user",
 ]);
 
 export const users = pgTable("user", {
@@ -23,7 +23,8 @@ export const users = pgTable("user", {
     email: text("email").unique(),
     emailVerified: timestamp("emailVerified", { mode: "date" }),
     image: text("image"),
-    role: role("role").notNull().default("USER"),
+    role: role("role").notNull().default("user"),
+    profileCompleted: boolean("profileCompleted").notNull().default(false),
 });
 
 export const accounts = pgTable(

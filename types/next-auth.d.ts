@@ -6,6 +6,7 @@ declare module "next-auth" {
     }
 
     interface User {
-        role: role;
+        role: 'admin' | 'user';
+        profileCompleted: boolean;
     }
 }

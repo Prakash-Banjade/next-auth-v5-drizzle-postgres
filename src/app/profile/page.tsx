@@ -4,6 +4,7 @@ import getSession from '@/lib/getSession';
 import { LogOut } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react'
+import { UpdateProfileForm } from '../auth/new-user/components/update-profile.form';
 
 type Props = {}
 
@@ -13,10 +14,18 @@ export default async function ProfilePage({ }: Props) {
 
     return (
         <div>
-            <h1 className='text-2xl'>Profile</h1>
-            <p>Name: {session?.user?.name}</p>
-            <p>Email: {session?.user?.email}</p>
-            <p>Role: {session?.user?.role}</p>
+            <section className='mb-4'>
+                <h1 className='text-2xl'>Profile</h1>
+                <p>Email: {session?.user?.email}</p>
+                <p>Role: {session?.user?.role}</p>
+            </section>
+
+            <UpdateProfileForm
+                defaultValues={{
+                    name: session?.user?.name || '',
+                    image: session?.user?.image || null,
+                }}
+            />
 
             {
                 isAdmin && (

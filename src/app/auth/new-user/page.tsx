@@ -1,7 +1,7 @@
 import getSession from '@/lib/getSession'
 import { redirect } from 'next/navigation';
 import React from 'react'
-import { OnboardingForm } from './components/onboarding-form';
+import { UpdateProfileForm } from './components/update-profile.form';
 
 type Props = {}
 
@@ -24,8 +24,8 @@ export default async function NewUserPage({ }: Props) {
             <p>Please complete your profile to continue.</p>
 
             <div className='h-10' />
-            
-            <OnboardingForm />
+
+            <UpdateProfileForm />
         </section>
     )
 }

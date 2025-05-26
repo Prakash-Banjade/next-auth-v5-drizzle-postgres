@@ -4,19 +4,22 @@ import { db } from "@/db";
 import getSession from "./getSession";
 import { users } from "@/db/schema/auth";
 import { eq } from "drizzle-orm";
+import { updateProfileFormSchema, UpdateProfileFormSchemaType } from "@/schemas/updateProfile-form.schema";
 
-type Props = {
-    name: string;
-}
-
-export async function newUserAction(data: Props) {
+export async function updateProfileAction(values: UpdateProfileFormSchemaType, newUser: boolean = false) {
     const session = await getSession();
+
+    const { success, error } = updateProfileFormSchema.safeParse(values);
+
+    if (!success) {
+        throw new Error(error.message);
+    }
 
     if (!session || !session.user.id) {
         throw new Error("User not authenticated");
     }
 
-    if (session.user.profileCompleted) {
+    if (newUser && session.user.profileCompleted) {
         // If the user already has a profile, redirect to the profile page
         throw new Error("Profile already completed");
     }
@@ -24,7 +27,7 @@ export async function newUserAction(data: Props) {
     // update user in db
     await db.update(users)
         .set({
-            name: data.name,
+            ...values,
             profileCompleted: true,
         })
         .where(eq(users.id, session.user.id));

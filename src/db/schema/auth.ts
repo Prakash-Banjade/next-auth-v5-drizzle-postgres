@@ -5,15 +5,15 @@ import {
     text,
     primaryKey,
     integer,
+    pgEnum,
 } from "drizzle-orm/pg-core"
-import postgres from "postgres"
-import { drizzle } from "drizzle-orm/postgres-js"
-import type { AdapterAccountType } from "next-auth/adapters"
 
-const connectionString = "postgres://postgres:postgres@localhost:5432/drizzle"
-const pool = postgres(connectionString, { max: 1 })
+import type { AdapterAccountType } from "next-auth/adapters";
 
-export const db = drizzle(pool)
+export const role = pgEnum("role", [
+    "ADMIN",
+    "USER",
+]);
 
 export const users = pgTable("user", {
     id: text("id")
@@ -23,7 +23,8 @@ export const users = pgTable("user", {
     email: text("email").unique(),
     emailVerified: timestamp("emailVerified", { mode: "date" }),
     image: text("image"),
-})
+    role: role("role").notNull().default("USER"),
+});
 
 export const accounts = pgTable(
     "account",

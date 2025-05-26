@@ -1,4 +1,4 @@
-import { getSession } from 'next-auth/react'
+import getSession from '@/getSession';
 import { redirect } from 'next/navigation';
 import React from 'react'
 
